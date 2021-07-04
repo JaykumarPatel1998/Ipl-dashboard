@@ -16,7 +16,7 @@ public interface MatchRepository extends CrudRepository<Match, Long> {
         String teamName1, String teamName2, Pageable pageable
         );
 
-    @Query("select m form match m where (m.team1 = :teamName or m.team2 = :teamName) and m.date between :dateStart and :dateEnd order by date desc")
+    @Query("select m from Match m where (m.team1 = :teamName or m.team2 = :teamName) and m.date between :dateStart and :dateEnd order by date desc")
     List<Match> getMatchesByTeamBetweenDates(
                                             @Param("teamName") String teamName,
                                             @Param("dateStart") LocalDate dateStart ,
