@@ -1,4 +1,3 @@
-
 import './App.css';
 import { TeamPage } from './pages/TeamPage'
 import { MatchPage } from './pages/MatchPage'
