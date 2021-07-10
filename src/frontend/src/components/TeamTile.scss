@@ -1,0 +1,26 @@
+.TeamTile{
+    // height: 170px;
+    text-align: center;
+    border: 1px solid white;
+
+    .name{
+        padding: 30px;
+        // margin: 30px;
+
+       
+    }
+
+
+}
+
+.TeamTile:hover{
+
+    background-color: rgb(189, 196, 196);
+    .name{
+        color: black;
+        font-style: italic;
+    }
+   
+  
+
+}

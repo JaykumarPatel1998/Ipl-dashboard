@@ -1,5 +1,5 @@
 import { React, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import { MatchDetailCard } from '../components/MatchDetailCard';
 import { MatchSmallCard } from '../components/MatchSmallCard';
 import { PieChart } from 'react-minimal-pie-chart';
@@ -14,6 +14,9 @@ import Delhi from './logo/Delhi Capitals.png';
 import Gujarat from './logo/Gujarat Lions.png';
 import Kolkata from './logo/Kolkata Knight Riders.png';
 import Deccan from './logo/Deccan Chargers.png';
+import Kochi from './logo/Kochi tuskers kerala.png';
+import Pune from './logo/Pune Warriors.png';
+import Rising from './logo/Rising Pune supergiants.png';
 import ipl from './logo/ipl.png'
 
 
@@ -29,24 +32,53 @@ export const TeamPage = () => {
   const [team, setTeam] = useState({ matches: [] });
 
   const { teamName } = useParams();
- 
-  
 
+
+
+
+
+  let logo;
   
-  
+  const teamLogo =()=>{
+   if (teamName == "Kings XI Punjab") { logo = Kings };
+   if (teamName == "Chennai Super Kings") { logo = Chennai };
+   if (teamName == "Mumbai Indians") { logo = Mumbai };
+   if (teamName == "Rajasthan Royals") { logo = Rajasthan };
+   if (teamName == "Royal Challengers Bangalore") { logo = Royal };
+   if (teamName == "Sunrisers Hyderabad") { logo = Sunrisers };
+   if (teamName == "Delhi Capitals") { logo = Delhi };
+   if (teamName == "Gujarat Lions") { logo = Gujarat };
+   if (teamName == "Kolkata Knight Riders") { logo = Kolkata };
+   if (teamName == "Deccan Chargers") { logo = Deccan };   
+   if (teamName == "Kochi Tuskers Kerala") { logo = Kochi };   
+   if (teamName == "Rising Pune Supergiants") { logo = Rising };   
+   if (teamName == "Pune Warriors") { logo = Pune }; 
+   if(teamName == null){logo = ipl}  ;
+
+  }
+
+  teamLogo();
+ 
+
+
+
+
+
+
+
 
 
   useEffect(
     () => {
-      const fetchMatches = async () => {
+      const fetchTeam = async () => {
         const response = await fetch(`http://localhost:8080/team/${teamName}`);
         const data = await response.json();
-        
+
 
         setTeam(data);
       };
 
-      fetchMatches();
+      fetchTeam();
 
     }, [teamName]
 
@@ -58,37 +90,35 @@ export const TeamPage = () => {
     return <h1>Team not Found!!</h1>
   }
 
-  // let temp = String(teamName)
-  // let logo;
-  // const logoArray = [Kings,Chennai,Mumbai,Rajasthan,Royal,Sunrisers,Delhi,Gujarat,Kolkata,Deccan]
-  
-  // logoArray.forEach((item)=>{
-  //   const temp2 = String(item.toString())
-  //   if(temp.includes(temp2)){
-  //       logo = item;
-  //   }
-  //   console.log(logo)
-
-  // })
 
 
   return (
-   <div className="TeamPage">
+    <div className="TeamPage">
       <div className="team-name-section">
-      <img src={ipl} alt="ipl-team-logo" width="500px" height="300px" ></img>
-     
+        <Link to={"/"}>
+        <img src={logo} alt="ipl-team-logo" width="300px" height="300px" ></img>
+        </Link>
         <h1 className="team-name">{team.teamName}</h1>
       </div>
 
 
       <div className="win-loss-section">
         win/loss Ratio
+      
         <PieChart
           data={[
-            { title: 'Losses', value: team.totalMatches - team.totalWins, color: '#a34d54' },
-            { title: 'Wins', value: team.totalWins, color: '#4da375' },
-            
+            {
+              color: "#a34d54",
+              title: "Losses",
+              value: team.totalMatches - team.totalWins,
+            },
+            {
+              color: "#4da375",
+              title: "Wins",
+              value: team.totalWins,
+            },
           ]}
+        
         />
 
       </div>
@@ -102,7 +132,8 @@ export const TeamPage = () => {
       {team.matches.slice(1).map(match => <MatchSmallCard teamName={team.teamName} match={match} />)}
 
       <div className="more-link">
-        <a href="#"> More⇒</a>
+      <Link to={`/teams/${teamName}/matches/${process.env.REACT_APP_DATA_END_YEAR}`} > More⇒ </Link>
+     
       </div>
     </div>
   );
